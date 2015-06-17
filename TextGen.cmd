@@ -1,0 +1,1 @@
+src\TextGen\bin\Debug\TextGen.exe %*
