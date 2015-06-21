@@ -43,6 +43,9 @@ namespace TextGen
         {
             ContainerBuilder builder = new ContainerBuilder();
 
+            builder.RegisterType<TokenizerFactory>().As<ITokenizerFactory>();
+            builder.RegisterType<TokenizerFactory>().As<ITokenizer>();
+
             // Command-line specific stuff
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => typeof(ISubCommand).IsAssignableFrom(t) && t.IsPublic)

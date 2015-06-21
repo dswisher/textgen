@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,11 +29,36 @@ namespace TextGen
 
         public void Execute()
         {
+            foreach (var file in GetFiles())
+            {
+                Console.WriteLine("{0}", file.FullName);
+            }
+        }
+
+
+
+        private IEnumerable<FileInfo> GetFiles()
+        {
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var name in Files)
             {
-                Console.WriteLine("File: {0}", name);
+                var dirName = Path.GetDirectoryName(name);
+                var fileName = Path.GetFileName(name);
+
+                if (string.IsNullOrEmpty(dirName))
+                {
+                    continue;
+                }
+
+                var dirInfo = new DirectoryInfo(dirName);
+
+                var files = dirInfo.GetFiles(fileName);
+
+                foreach (var file in files)
+                {
+                    yield return file;
+                }
             }
-            // TODO
         }
     }
 }
